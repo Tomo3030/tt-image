@@ -10,9 +10,11 @@ export interface SceneConfig {
   assetPlacement: AssetPlacement[];
   scale: number; // most of the time 1, but if the asset sits too big in DZ, then scale it down.
   styles?: {
-    textbox?: {
+    font?: {
       fontFamily?: string;
       fontUrl?: string;
+    };
+    textbox?: {
       selectedBackgroundColor?: string;
       fill?: string;
       borderRadius?: number;

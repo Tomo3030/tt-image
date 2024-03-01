@@ -45,10 +45,12 @@ export const config: SceneConfig = {
   ],
 
   styles: {
-    textbox: {
+    font: {
       fontFamily: 'Arial',
       fontUrl:
         'https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap',
+    },
+    textbox: {
       selectedBackgroundColor: 'RGBA(0,0,255,0.1)',
       fill: 'black', //text color
     },

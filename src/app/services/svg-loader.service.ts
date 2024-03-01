@@ -17,10 +17,8 @@ export class SvgLoaderService {
 
   private loadSvgsToDropzones(
     canvas: fabric.Canvas,
-    svgPlacement: Record<string, string>,
-    additionalScaleFactor?: number
+    svgPlacement: Record<string, string>
   ) {
-    console.log(additionalScaleFactor);
     Object.entries(svgPlacement).forEach(([key, path]) => {
       if (key !== 'asset-container') {
         let dz = this.getCanvasObject(key, canvas);
@@ -42,12 +40,16 @@ export class SvgLoaderService {
     if (!this.ASSET_SCALE)
       this.setAssetScale(dz, { width: group.width, height: group.height });
     if (dz.radius) this.NEEDS_CLIP_PATH = true;
+    let center = dz.getCenterPoint();
     return {
       scale: this.ASSET_SCALE,
-      left: dz.left,
-      top: dz.top,
+      left: center.x,
+      top: center.y,
       selectable: false,
       fixedAsset: true,
+      associatedDz: dz.id,
+      originX: 'center',
+      originY: 'center',
     };
   }
 
@@ -148,7 +150,7 @@ export class SvgLoaderService {
     const scaleMin = Math.min(dz.scaleX, dz.scaleY);
     const dzMin = Math.min(dz.width, dz.height);
     const assetMin = Math.min(assetSize.width, assetSize.height);
-    this.ASSET_SCALE = (dzMin / assetMin) * scaleMin * 0.8;
+    this.ASSET_SCALE = (dzMin / assetMin) * scaleMin * 0.7;
   }
 
   getCanvasObject(ref: string, canvas: fabric.Canvas) {

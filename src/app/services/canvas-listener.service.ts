@@ -27,7 +27,11 @@ export class CanvasListenerService {
       let target = e.target as any;
       // ripple effect
       if (target && target.fixedAsset) {
-        this.addRipple(target, canvas);
+        if (target.type === 'textbox') this.addRipple(target, canvas);
+        else {
+          target = this.dz.find((dz) => dz.id === target.associatedDz);
+          this.addRipple(target, canvas);
+        }
       }
       if (target && target.selectable) {
         if (target.associatedDz) {
@@ -79,32 +83,29 @@ export class CanvasListenerService {
 
   private addRipple(target: any, canvas: fabric.Canvas) {
     let rect = new fabric.Rect({
-      left: target.left! + (target.width! / 2) * target.scaleX!,
-      top: target.top! - target.padding * target.scaleX!,
+      left: target.getCenterPoint().x,
+      top: target.getCenterPoint().y,
+      originY: 'center',
+      originX: 'center',
       width: target.width! + 6,
-      //height: target.height! + target.padding * 2 * target.scaleX!,
       height:
         target.height! * target.scaleY! + target.padding * 2 * target.scaleX!,
       scaleX: 0.01,
-
       opacity: 0.5,
-      originX: 'center',
       fill: 'red',
       selectable: false,
     });
-    if (target.clipPath) {
+    if (target.radius) {
       rect.set({
         rx: 1000,
         ry: 1000,
       });
     }
     canvas.add(rect);
-
     rect.animate('scaleX', target.scaleX, {
       duration: 100,
       onChange: canvas.renderAll.bind(canvas),
     });
-
     rect.animate('opacity', 0, {
       duration: 300,
       onChange: canvas.renderAll.bind(canvas),
@@ -112,7 +113,6 @@ export class CanvasListenerService {
         canvas.remove(rect);
       },
     });
-
     rect.animate;
   }
 
@@ -131,8 +131,10 @@ export class CanvasListenerService {
       this.activeDz = null;
 
       e.target.set({
-        left: intersect.left + intersect.strokeWidth,
-        top: intersect.top + intersect.strokeWidth,
+        left: intersect.getCenterPoint().x,
+        top: intersect.getCenterPoint().y,
+        originX: 'center',
+        originY: 'center',
       });
 
       asset.associatedDz = intersect.id;

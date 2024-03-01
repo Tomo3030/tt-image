@@ -11,10 +11,22 @@ export class BackgroundService {
   BG_SCALE = 1;
 
   async loadScene(canvas: fabric.Canvas, scene: SceneConfig) {
+    if (scene.styles?.font) await this.loadSceneFont(scene.styles.font);
+
     await this.loadBackground(canvas, scene.backgroundPath);
     await this.loadDz(canvas, scene.dzPath, scene.styles);
     await this.loadTextBoxes(canvas, scene.textboxPath, scene.styles);
     await this.loadAssetContainer(canvas, scene.assetContainerPath);
+  }
+
+  private loadSceneFont(fonts: any) {
+    console.log(fonts);
+    return new Promise((resolve, reject) => {
+      let link = document.createElement('link');
+      link.href = fonts.url;
+      link.rel = 'stylesheet';
+      resolve(() => {});
+    });
   }
 
   private loadBackground(canvas: fabric.Canvas, path: string) {
@@ -55,10 +67,12 @@ export class BackgroundService {
   }
 
   private loadTextBoxes(canvas: fabric.Canvas, path: string, styles: any) {
+    console.log(styles);
     return new Promise((resolve, reject) => {
       fabric.loadSVGFromURL(path, (objects, options) => {
         objects.forEach((obj, i) => {
           let textBox = this.makeTextBox(obj, styles) as any;
+          textBox['type'] = 'textbox';
           if (textBox) {
             canvas.add(textBox);
           }
@@ -106,8 +120,8 @@ export class BackgroundService {
 
   private getFontConfig() {
     return {
-      fontSize: 14,
-      fontFamily: 'Arial',
+      fontSize: 16,
+      fontFamily: 'Montserrat',
       textAlign: 'center',
     };
   }
@@ -116,6 +130,8 @@ export class BackgroundService {
     let object: any;
     let strokeConfig = this.getStrokeConfig();
     let activeFill = styles?.dz.activeFill || 'RGBA(0,0,255,0.1)';
+    let top = obj.top * this.BG_SCALE + (obj.height * this.BG_SCALE) / 2;
+    let left = obj.left * this.BG_SCALE + (obj.width * this.BG_SCALE) / 2;
 
     if (obj.radius) {
       object = new fabric.Circle({
