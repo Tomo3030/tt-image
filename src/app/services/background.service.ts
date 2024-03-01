@@ -57,7 +57,6 @@ export class BackgroundService {
   private loadTextBoxes(canvas: fabric.Canvas, path: string, styles: any) {
     return new Promise((resolve, reject) => {
       fabric.loadSVGFromURL(path, (objects, options) => {
-        console;
         objects.forEach((obj, i) => {
           let textBox = this.makeTextBox(obj, styles) as any;
           if (textBox) {
@@ -90,10 +89,14 @@ export class BackgroundService {
     let selectedBackgroundColor = extra_styles?.textbox.selectedBackgroundColor;
     let fill = extra_styles?.textbox.fill;
     let styles = this.getTextBoxStyle(obj);
+    let borderRadius = extra_styles?.textbox.borderRadius || 0;
+
     let tb = new TextboxWithPadding(defaultText, {
       defaultText: defaultText,
       selectedBackgroundColor,
+      borderRadius,
       fill,
+
       ...fontConfig,
       ...styles,
     });

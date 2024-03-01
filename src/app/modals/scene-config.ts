@@ -8,19 +8,22 @@ export interface SceneConfig {
   numberOfAssets: number;
   requiredAssetProps: string[]; // ['name', 'email', 'phone', 'id'];
   assetPlacement: AssetPlacement[];
+  scale: number; // most of the time 1, but if the asset sits too big in DZ, then scale it down.
   styles?: {
     textbox?: {
-      fontFamily: string;
-      fontUrl: string;
-      selectedBackgroundColor: string;
-      fill: string;
+      fontFamily?: string;
+      fontUrl?: string;
+      selectedBackgroundColor?: string;
+      fill?: string;
+      borderRadius?: number;
     };
     canvas?: {
-      lockedAssetRippleColor: string;
+      lockedAssetRippleColor?: string;
     };
     dz?: {
-      needsClipPath: boolean;
-      activeFill: string;
+      needsClipPath?: boolean;
+      activeFill?: string;
+      borderRadius?: number;
     };
   };
 }

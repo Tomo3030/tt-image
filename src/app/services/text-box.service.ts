@@ -13,6 +13,8 @@ export class TextBoxService {
 
   private loadTextboxText(text: string, canvas: fabric.Canvas, textbox: any) {
     textbox.set({ text });
+    textbox.set({ fontWeight: 'bold' });
+
     canvas.renderAll();
     textbox.selectable = false;
     textbox['fixedAsset'] = true;

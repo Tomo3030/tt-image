@@ -13,12 +13,20 @@ export const TextboxWithPadding = fabric.util.createClass(fabric.Textbox, {
 
     ctx.fillStyle = this.backgroundColor;
 
-    ctx.fillRect(
+    // ctx.fillRect(
+    //   -dim.x / 2,
+    //   -dim.y / 2 - this.padding,
+    //   dim.x,
+    //   dim.y + this.padding * 2
+    // );
+    ctx.roundRect(
       -dim.x / 2,
       -dim.y / 2 - this.padding,
       dim.x,
-      dim.y + this.padding * 2
+      dim.y + this.padding * 2,
+      this.borderRadius || 0
     );
+    ctx.fill();
 
     this._removeShadow(ctx);
   },
@@ -36,18 +44,6 @@ export const TextboxWithPadding = fabric.util.createClass(fabric.Textbox, {
     this.top = originalTop;
     this.height = originalHeight;
   },
-
-  //   onInput: function (e: any) {
-  //     if (this.width < 214) {
-  //       //console.log('less than 214');
-  //     } else {
-  //       this.text = this.text.slice(0, -1);
-  //       this.hiddenTextarea.value = this.text;
-  //       this.width = 213;
-  //       //console.log('more than 214');
-  //     }
-  //     this.callSuper('onInput', e);
-  //   },
 
   onSelect() {
     if (!this.editable) return;

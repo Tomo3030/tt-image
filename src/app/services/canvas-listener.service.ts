@@ -42,7 +42,7 @@ export class CanvasListenerService {
       if (e.target && e.target.selectable && e.target.moveable) {
         let intersect = this.getIntersectedDz(e);
         if (!intersect) return;
-        this.handleDzDrop(intersect, e);
+        this.handleDzDrop(intersect, e, canvas);
       }
     });
   }
@@ -116,7 +116,7 @@ export class CanvasListenerService {
     rect.animate;
   }
 
-  private handleDzDrop(intersect: any, e: any) {
+  private handleDzDrop(intersect: any, e: any, canvas: fabric.Canvas) {
     let asset = e.target as any;
     if (intersect && !intersect.empty) {
       // DZ is occupied place asset below
@@ -138,6 +138,7 @@ export class CanvasListenerService {
       asset.associatedDz = intersect.id;
       intersect.empty = false;
       intersect.fill = intersect.activeFill;
+      canvas.discardActiveObject();
     }
   }
 
@@ -145,7 +146,6 @@ export class CanvasListenerService {
     let dz = canvas
       .getObjects()
       .find((obj: any) => obj.id === target.associatedDz);
-    console.log(dz);
     this.activeDz = dz;
     dz.empty = true;
     //dz.set('stroke', 'RGBA(0,0,0,0.3)');

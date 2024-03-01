@@ -4,4 +4,5 @@ interface AssetMapImports {
 
 export const assetMapImports: AssetMapImports = {
   'avatar-men': () => import('./avatar-men'),
+  fruits: () => import('./fruits'),
 };

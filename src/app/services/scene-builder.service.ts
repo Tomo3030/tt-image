@@ -24,47 +24,47 @@ export class SceneBuilderService {
     private textBox: TextBoxService
   ) {}
 
-  async buildScene(canvas: any, data: GameData) {
-    let assetMap = (await this.loadAssetMap(data.assets)) as AssetMap;
-    //this.ASSET_BASE_PATH = assetMap['base-path'];
-    const assetPlacement = data.scene.assetPlacement;
-    const assets = this.getSceneAssets(data, assetMap);
-    const members = this._GAME_DATA.members;
-    const myIndex = members.indexOf(this._GAME_DATA.userName);
-
-    const answerSheet = this.makeAnswerSheet(
-      assets.requiredAssets,
-      assetPlacement
+  public async buildScene(canvas: any, data: GameData) {
+    const assetPlacement = await this.getAssetPlacement(data);
+    const userName = data.members[1];
+    const mySVGPlacement = this.getMySVGPlacement(
+      assetPlacement,
+      data.members,
+      userName
     );
 
-    const needsClipPath = data.scene?.styles?.dz?.needsClipPath || false;
+    this.loader.placeSvgsOnCanvas(canvas, mySVGPlacement);
 
-    this.loader.placeSvgsOnScene({
-      answerSheet: answerSheet,
-      canvas: canvas,
-      additionalAssets: assets.additionalAssets,
-      members: members,
-      myIndex: myIndex,
-      assetMap: assetMap,
-      needsClipPath: needsClipPath,
-    });
-
-    const allTextboxeRefs = this.getSceneTextboxes(answerSheet);
-    const myTextboxes = this.getMyTextboxes(
-      answerSheet,
-      allTextboxeRefs,
-      members,
-      myIndex
+    const mytextPlacement = this.getMyTextboxes(
+      assetPlacement,
+      this.getSceneTextboxes(assetPlacement),
+      data.members,
+      data.members.indexOf(userName)
     );
 
-    this.textBox.loadText(canvas, myTextboxes);
-
-    console.log(myTextboxes);
+    this.textBox.loadText(canvas, mytextPlacement);
   }
 
-  async loadAssetMap(fileName: string) {
+  private async loadAssetMap(fileName: string) {
+    console.log(fileName);
     const module = await assetMapImports[fileName]();
     return module.default;
+  }
+
+  private async getAssetPlacement(data: GameData) {
+    const assetMap = (await this.loadAssetMap(data.assets)) as AssetMap;
+
+    const assets = this.getSceneAssets(data, assetMap);
+
+    const assetPlacement = this.makeAnswerSheet(
+      assets.requiredAssets,
+      data.scene.assetPlacement
+    );
+    let additionalAssetPaths = assets.additionalAssets.map((asset) => {
+      return `${assetMap['base-path']}/${asset.assetName}`;
+    });
+    assetPlacement['asset-container'] = additionalAssetPaths;
+    return assetPlacement;
   }
 
   private makeAnswerSheet(
@@ -82,11 +82,10 @@ export class SceneBuilderService {
     return answerSheet;
   }
 
-  getSceneAssets(data: GameData, assetMap: AssetMap) {
+  private getSceneAssets(data: GameData, assetMap: AssetMap) {
     let assets = assetMap.assets;
     let basepath = assetMap['base-path'];
     let assetArray = Object.keys(assets).map((key) => assets[key]);
-    //assetArray = this.shuffleArray(assetArray);
     let numberOfDz = data.scene.numberOfDz;
     let requiredAssets = assetArray.slice(0, numberOfDz);
     requiredAssets.map((asset) => {
@@ -98,6 +97,35 @@ export class SceneBuilderService {
       numberOfDz + numberOfAdditinalAssets
     );
     return { requiredAssets, additionalAssets };
+  }
+
+  getMySVGPlacement(assetPlacement: any, members: string[], userName: string) {
+    let assetPlacementKeys = Object.keys(assetPlacement).filter((ref) =>
+      ref.includes('dz')
+    );
+    let dzAssets = this.divideArray(assetPlacementKeys, members, userName);
+    let assetContainerAssets = assetPlacementKeys.filter(
+      (ref) => !dzAssets.includes(ref)
+    );
+    const svgPlacement: any = {};
+    dzAssets.forEach((dz, i) => {
+      svgPlacement[dz] = assetPlacement[dz];
+    });
+    (svgPlacement['asset-container'] = assetPlacement['asset-container'] || []),
+      assetContainerAssets.forEach((ref) => {
+        svgPlacement['asset-container'].push(assetPlacement[ref]);
+      });
+    return svgPlacement;
+  }
+
+  private divideArray(array: any[], members: string[], userName: string) {
+    let myIndex = members.indexOf(userName);
+    if (myIndex === -1) throw new Error('User not found in members list');
+    let myArray: any[] = [];
+    array.forEach((item, i) => {
+      if (myIndex % members.length === i % members.length) myArray.push(item);
+    });
+    return myArray;
   }
 
   private getSceneTextboxes(answerSheet: any) {
@@ -119,5 +147,9 @@ export class SceneBuilderService {
         myTextboxes[ref] = answerSheet[ref];
     });
     return myTextboxes;
+  }
+
+  shuffleArray(array: any[]) {
+    return array;
   }
 }

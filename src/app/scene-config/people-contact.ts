@@ -9,6 +9,7 @@ export const config: SceneConfig = {
   numberOfTextBoxes: 16,
   numberOfAssets: 5,
   requiredAssetProps: ['name', 'email', 'phone', 'id'],
+  scale: 1,
   assetPlacement: [
     {
       path: 'dz-1',

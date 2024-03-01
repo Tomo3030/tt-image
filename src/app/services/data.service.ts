@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { config } from 'src/app/scene-config/people-contact';
+import { config } from 'src/app/scene-config/supermarket';
 import { GameData } from '../modals/game-data';
 
 @Injectable({
@@ -21,10 +21,10 @@ export class DataService {
   }
 
   private getGameData(): GameData {
-    let scene = this.getSceneData('people-contact');
+    let scene = this.getSceneData('supermarket');
     return {
       scene: scene,
-      assets: 'avatar-men',
+      assets: 'fruits',
       members: ['a', 'b', 'c'],
       timeStamp: 240204,
     };
@@ -33,18 +33,6 @@ export class DataService {
   getSceneData(sceneName: string) {
     return {
       ...config,
-    };
-  }
-
-  gameAnswerSheet() {
-    let a = {
-      dropZones: [
-        {
-          id: 'dropzone-1',
-          assetUrl: 'url///',
-          associatedTextBoxes: ['textbox-1', 'textbox-2'],
-        },
-      ],
     };
   }
 }
