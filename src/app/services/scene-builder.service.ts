@@ -11,14 +11,6 @@ import { TextBoxService } from './text-box.service';
   providedIn: 'root',
 })
 export class SceneBuilderService {
-  _GAME_DATA = {
-    members: ['a', 'b', 'c'],
-    timeStamp: 240204,
-    userName: 'b',
-  };
-
-  ASSET_SCALE: null | number = null;
-  ASSET_BASE_PATH = '';
   constructor(
     private loader: SvgLoaderService,
     private textBox: TextBoxService
@@ -26,14 +18,17 @@ export class SceneBuilderService {
 
   public async buildScene(canvas: any, data: GameData) {
     const assetPlacement = await this.getAssetPlacement(data);
+
     const userName = data.members[1];
+    const assetScaleFactor = data.scene.scale || 1;
+
     const mySVGPlacement = this.getMySVGPlacement(
       assetPlacement,
       data.members,
       userName
     );
 
-    this.loader.placeSvgsOnCanvas(canvas, mySVGPlacement);
+    this.loader.placeSvgsOnCanvas(canvas, mySVGPlacement, assetScaleFactor);
 
     const mytextPlacement = this.getMyTextboxes(
       assetPlacement,
@@ -45,14 +40,8 @@ export class SceneBuilderService {
     this.textBox.loadText(canvas, mytextPlacement);
   }
 
-  private async loadAssetMap(fileName: string) {
-    console.log(fileName);
-    const module = await assetMapImports[fileName]();
-    return module.default;
-  }
-
   private async getAssetPlacement(data: GameData) {
-    const assetMap = (await this.loadAssetMap(data.assets)) as AssetMap;
+    const assetMap = data.assets;
 
     const assets = this.getSceneAssets(data, assetMap);
 

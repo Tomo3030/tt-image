@@ -1,6 +1,6 @@
 import { SceneConfig } from '../modals/scene-config';
 
-export const config: SceneConfig = {
+const config: SceneConfig = {
   backgroundPath: './assets/scenes/people-contact/people-bg.svg',
   dzPath: './assets/scenes/people-contact/people-dz.svg',
   textboxPath: './assets/scenes/people-contact/people-textbox.svg',
@@ -46,9 +46,8 @@ export const config: SceneConfig = {
 
   styles: {
     font: {
-      fontFamily: 'Arial',
-      fontUrl:
-        'https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap',
+      fontFamily: 'Montserrat',
+      url: 'https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap',
     },
     textbox: {
       selectedBackgroundColor: 'RGBA(0,0,255,0.1)',
@@ -64,41 +63,4 @@ export const config: SceneConfig = {
   },
 };
 
-// dzAssociations: [
-//   {
-//     dzId: 'dz-1',
-//     associatedTextBoxes: [
-//       { id: 'textbox-1', prop: 'name' },
-//       { id: 'textbox-2', prop: 'email' },
-//       { id: 'textbox-3', prop: 'phone' },
-//       { id: 'textbox-4', prop: 'studentId' },
-//     ],
-//   },
-//   {
-//     dzId: 'dz-2',
-//     associatedTextBoxes: [
-//       { id: 'textbox-5', prop: 'name' },
-//       { id: 'textbox-6', prop: 'email' },
-//       { id: 'textbox-7', prop: 'phone' },
-//       { id: 'textbox-8', prop: 'studentId' },
-//     ],
-//   },
-//   {
-//     dzId: 'dz-3',
-//     associatedTextBoxes: [
-//       { id: 'textbox-9', prop: 'name' },
-//       { id: 'textbox-10', prop: 'email' },
-//       { id: 'textbox-11', prop: 'phone' },
-//       { id: 'textbox-12', prop: 'studentId' },
-//     ],
-//   },
-//   {
-//     dzId: 'dz-4',
-//     associatedTextBoxes: [
-//       { id: 'textbox-13', prop: 'name' },
-//       { id: 'textbox-14', prop: 'email' },
-//       { id: 'textbox-15', prop: 'phone' },
-//       { id: 'textbox-16', prop: 'studentId' },
-//     ],
-//   },
-// ],
+export default config;

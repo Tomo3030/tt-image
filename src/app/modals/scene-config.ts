@@ -11,8 +11,8 @@ export interface SceneConfig {
   scale: number; // most of the time 1, but if the asset sits too big in DZ, then scale it down.
   styles?: {
     font?: {
-      fontFamily?: string;
-      fontUrl?: string;
+      fontFamily: string;
+      url: string;
     };
     textbox?: {
       selectedBackgroundColor?: string;

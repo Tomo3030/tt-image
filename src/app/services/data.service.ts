@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
-import { config } from 'src/app/scene-config/supermarket';
+import { sceneConfigImports } from '../scene-config/scene-config-imports';
 import { GameData } from '../modals/game-data';
+import { assetMapImports } from '../asset-maps/asset-map-imports';
+import { SceneConfig } from '../modals/scene-config';
+import { AssetMap } from '../modals/asset-map';
 
 @Injectable({
   providedIn: 'root',
@@ -8,31 +11,33 @@ import { GameData } from '../modals/game-data';
 export class DataService {
   constructor() {}
 
-  getData() {
-    let data = this.getGameData();
-    //let scene = this.getSceneData(data.scene);
-    return data;
-    //need to return the scene data
-    //and the assets
-    // and sceneConfig
-    //sceneData will be list of links with bg, dz, and textboxes, assetcontainer
-    //assets will be list of links to images
-    //sceneConfig will explain how many dz and textboxes and their associations
-  }
+  FAKE_DATA = {
+    scene: 'supermarket',
+    assets: 'fruits',
+    members: ['a', 'b', 'c'],
+    timeStamp: 240204,
+  };
 
-  private getGameData(): GameData {
-    let scene = this.getSceneData('supermarket');
+  async getData(): Promise<GameData> {
+    let _data = this.FAKE_DATA;
+    let scene = await this.getSceneConfig(_data.scene);
+    let assets = await this.getAssetMap(_data.assets);
+
     return {
-      scene: scene,
-      assets: 'fruits',
-      members: ['a', 'b', 'c'],
-      timeStamp: 240204,
+      scene,
+      assets,
+      members: _data.members,
+      timeStamp: _data.timeStamp,
     };
   }
 
-  getSceneData(sceneName: string) {
-    return {
-      ...config,
-    };
+  async getAssetMap(scene: string): Promise<AssetMap> {
+    const module = await assetMapImports[scene]();
+    return module.default;
+  }
+
+  private async getSceneConfig(scene: string): Promise<SceneConfig> {
+    const module = await sceneConfigImports[scene]();
+    return module.default;
   }
 }

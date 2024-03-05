@@ -1,6 +1,6 @@
 import { SceneConfig } from '../modals/scene-config';
 
-export const config: SceneConfig = {
+const config: SceneConfig = {
   backgroundPath: './assets/scenes/supermarket/supermarket-bg.svg',
   dzPath: './assets/scenes/supermarket/supermarket-dz.svg',
   textboxPath: './assets/scenes/supermarket/supermarket-textboxes.svg',
@@ -9,7 +9,7 @@ export const config: SceneConfig = {
   numberOfDz: 9,
   numberOfTextBoxes: 9,
   numberOfAssets: 9,
-  scale: 0.8,
+  scale: 0.7,
   requiredAssetProps: ['dollar_price'],
   assetPlacement: [
     {
@@ -52,11 +52,10 @@ export const config: SceneConfig = {
   styles: {
     font: {
       fontFamily: 'Montserrat',
-      fontUrl:
-        'https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap',
+      url: 'https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap',
     },
     textbox: {
-      selectedBackgroundColor: 'RGBA(254,92,45,.65)',
+      selectedBackgroundColor: 'RGBA(254,92,45,.85)',
       fill: 'white',
       borderRadius: 4,
     },
@@ -68,3 +67,5 @@ export const config: SceneConfig = {
     canvas: {},
   },
 };
+
+export default config;

@@ -29,7 +29,8 @@ export class SceneComponent implements AfterViewInit {
     this.canvasService.rezizeCanvas(this.myCanvas);
     this.canvas = new fabric.Canvas(this.myCanvas.nativeElement, {});
     this.canvas.selection = false;
-    const data = this.data.getData();
+    this.canvas.selectionLineWidth = 5;
+    const data = await this.data.getData();
 
     await this.backgroundService.loadScene(this.canvas, data.scene);
     this.sceneBuilder.buildScene(this.canvas, data);

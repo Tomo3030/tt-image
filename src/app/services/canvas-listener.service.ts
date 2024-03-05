@@ -13,6 +13,22 @@ export class CanvasListenerService {
     this.initDzIntersectListener(canvas);
     this.initClickListeners(canvas);
     this.initDropListener(canvas);
+    this.initTextListeners(canvas);
+  }
+
+  private initTextListeners(canvas: fabric.Canvas) {
+    canvas.on('text:changed', (e: any) => {
+      // limit text height also when press enter deselects textbox
+      if (e.target.height > e.target.maxHeight) {
+        e.target.text = e.target.text.slice(0, -1);
+        e.target.hiddenTextarea.value = e.target.text;
+        e.target.height = e.target.maxHeight;
+        canvas.discardActiveObject();
+      }
+    });
+    canvas.on('text:editing:exited', (e: any) => {
+      console.log(e.target);
+    });
   }
 
   private initDzIntersectListener(canvas: fabric.Canvas) {
@@ -44,6 +60,7 @@ export class CanvasListenerService {
   private initDropListener(canvas: fabric.Canvas) {
     canvas.on('mouse:up', (e: any) => {
       if (e.target && e.target.selectable && e.target.moveable) {
+        canvas.discardActiveObject();
         let intersect = this.getIntersectedDz(e);
         if (!intersect) return;
         this.handleDzDrop(intersect, e, canvas);
@@ -140,7 +157,6 @@ export class CanvasListenerService {
       asset.associatedDz = intersect.id;
       intersect.empty = false;
       intersect.fill = intersect.activeFill;
-      canvas.discardActiveObject();
     }
   }
 

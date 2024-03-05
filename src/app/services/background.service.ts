@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { fabric } from 'fabric';
 import { TextboxWithPadding } from '../modals/textbox-with-padding';
 import { SceneConfig } from '../modals/scene-config';
+import FontFaceObserver from 'fontfaceobserver';
 
 @Injectable({
   providedIn: 'root',
@@ -20,16 +21,19 @@ export class BackgroundService {
   }
 
   private loadSceneFont(fonts: any) {
-    console.log(fonts);
     return new Promise((resolve, reject) => {
       let link = document.createElement('link');
       link.href = fonts.url;
       link.rel = 'stylesheet';
-      resolve(() => {});
+      document.head.appendChild(link);
+      const font = new FontFaceObserver(fonts.fontFamily);
+      font.load().then(() => {
+        resolve(() => {});
+      });
     });
   }
 
-  private loadBackground(canvas: fabric.Canvas, path: string) {
+  loadBackground(canvas: fabric.Canvas, path: string) {
     return new Promise((resolve, reject) => {
       fabric.loadSVGFromURL(path, (objects, options) => {
         let group = fabric.util.groupSVGElements(objects, options);
@@ -59,25 +63,26 @@ export class BackgroundService {
           let dz = this.makeDz(obj, styles);
 
           if (dz) canvas.add(dz);
+          resolve(() => {});
         });
-
-        resolve(() => {});
       });
     });
   }
 
   private loadTextBoxes(canvas: fabric.Canvas, path: string, styles: any) {
-    console.log(styles);
     return new Promise((resolve, reject) => {
       fabric.loadSVGFromURL(path, (objects, options) => {
         objects.forEach((obj, i) => {
           let textBox = this.makeTextBox(obj, styles) as any;
           textBox['type'] = 'textbox';
+          textBox['maxWidth'] = obj.width! * this.BG_SCALE;
+          textBox['maxHeight'] = obj.height! * this.BG_SCALE;
           if (textBox) {
             canvas.add(textBox);
+            textBox.on('editing:entered', (e: any) => {});
           }
+          resolve(() => {});
         });
-        resolve(() => {});
       });
     });
   }
@@ -92,8 +97,9 @@ export class BackgroundService {
         }) as any;
         rect['id'] = 'asset-container';
         canvas.add(rect);
+
+        resolve(() => {});
       });
-      resolve(() => {});
     });
   }
 
@@ -199,7 +205,6 @@ export class BackgroundService {
       strokeDashArray: [5, 7],
     };
     if (this.BG_SCALE === 1) {
-      console.log(strokeConfig);
       strokeConfig = {
         strokeWidth: 2,
         strokeDashArray: [3, 3],

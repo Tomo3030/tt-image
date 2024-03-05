@@ -7,10 +7,15 @@ import { fabric } from 'fabric';
 export class SvgLoaderService {
   constructor() {}
   ASSET_SCALE: null | number = null;
+  SCENE_SCALE_FACTOR = 1;
   NEEDS_CLIP_PATH = false;
 
-  async placeSvgsOnCanvas(canvas: fabric.Canvas, svgPlacements: any) {
-    console.log(svgPlacements);
+  async placeSvgsOnCanvas(
+    canvas: fabric.Canvas,
+    svgPlacements: any,
+    scaleFactor: number
+  ) {
+    this.SCENE_SCALE_FACTOR = scaleFactor;
     this.loadSvgsToDropzones(canvas, svgPlacements);
     this.loadSvgsToAssetContainer(canvas, svgPlacements['asset-container']);
   }
@@ -21,7 +26,7 @@ export class SvgLoaderService {
   ) {
     Object.entries(svgPlacement).forEach(([key, path]) => {
       if (key !== 'asset-container') {
-        let dz = this.getCanvasObject(key, canvas);
+        let dz = this.getCanvasObject(key, canvas) as any;
         if (!dz) return;
 
         fabric.loadSVGFromURL(path, (objects, options) => {
@@ -29,6 +34,8 @@ export class SvgLoaderService {
           let opts = this.getDzSvgOptions(dz, group);
           group.scale(opts.scale);
           group.set(opts);
+          dz['empty'] = false;
+
           canvas.add(group);
           if (this.NEEDS_CLIP_PATH) this.addClipPathToAsset(group);
         });
@@ -55,6 +62,7 @@ export class SvgLoaderService {
 
   private loadSvgsToAssetContainer(canvas: fabric.Canvas, assetPath: string[]) {
     const assetContainer = this.getCanvasObject('asset-container', canvas);
+    console.log('assetContainer', assetContainer);
     const assetGrid = this.getAssetGrid(assetContainer, assetPath.length);
 
     assetPath.forEach((path, i) => {
@@ -79,6 +87,7 @@ export class SvgLoaderService {
       top: assetGrid[i].top,
       selectable: true,
       controls: false,
+      borderColor: '#666666',
     };
   }
 
@@ -150,7 +159,7 @@ export class SvgLoaderService {
     const scaleMin = Math.min(dz.scaleX, dz.scaleY);
     const dzMin = Math.min(dz.width, dz.height);
     const assetMin = Math.min(assetSize.width, assetSize.height);
-    this.ASSET_SCALE = (dzMin / assetMin) * scaleMin * 0.7;
+    this.ASSET_SCALE = (dzMin / assetMin) * scaleMin * this.SCENE_SCALE_FACTOR;
   }
 
   getCanvasObject(ref: string, canvas: fabric.Canvas) {
