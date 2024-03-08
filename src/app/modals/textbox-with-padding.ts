@@ -19,13 +19,22 @@ export const TextboxWithPadding = fabric.util.createClass(fabric.Textbox, {
     //   dim.x,
     //   dim.y + this.padding * 2
     // );
-    ctx.roundRect(
+
+    ctx.fillRect(
       -dim.x / 2,
       -dim.y / 2 - this.padding,
       dim.x,
-      dim.y + this.padding * 2,
-      this.borderRadius || 0
+      dim.y + this.padding * 2
     );
+
+    // ctx.roundRect(
+    //   -dim.x / 2,
+    //   //-dim.y / 2 - this.padding,
+    //   -dim.y,
+    //   dim.x,
+    //   dim.y + this.padding * 2,
+    //   this.borderRadius || 0
+    // );
     ctx.fill();
 
     this._removeShadow(ctx);
@@ -48,7 +57,7 @@ export const TextboxWithPadding = fabric.util.createClass(fabric.Textbox, {
   onSelect() {
     if (!this.editable) return;
     this._handleTextboxText();
-    this.backgroundColor = this.selectedBackgroundColor; //magic
+    this.backgroundColor = this.selectedBackgroundColor;
     this.dirty = true;
   },
 

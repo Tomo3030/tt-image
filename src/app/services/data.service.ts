@@ -12,7 +12,7 @@ export class DataService {
   constructor() {}
 
   FAKE_DATA = {
-    scene: 'supermarket',
+    scene: 'calendar',
     assets: 'fruits',
     members: ['a', 'b', 'c'],
     timeStamp: 240204,
@@ -22,6 +22,7 @@ export class DataService {
     let _data = this.FAKE_DATA;
     let scene = await this.getSceneConfig(_data.scene);
     let assets = await this.getAssetMap(_data.assets);
+    console.log(scene, assets);
 
     return {
       scene,

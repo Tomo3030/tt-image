@@ -9,7 +9,7 @@ const config: SceneConfig = {
   numberOfTextBoxes: 16,
   numberOfAssets: 5,
   requiredAssetProps: ['name', 'email', 'phone', 'id'],
-  scale: 1,
+  additionalAssetScale: 1,
   assetPlacement: [
     {
       path: 'dz-1',
@@ -47,11 +47,13 @@ const config: SceneConfig = {
   styles: {
     font: {
       fontFamily: 'Montserrat',
+      textAlign: 'center',
       url: 'https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap',
+      verticalCenterText: true,
+      textFill: 'black',
     },
     textbox: {
-      selectedBackgroundColor: 'RGBA(0,0,255,0.1)',
-      fill: 'black', //text color
+      activeBorder: 'RGBA(0,0,255,0.1)',
     },
     dz: {
       needsClipPath: true,

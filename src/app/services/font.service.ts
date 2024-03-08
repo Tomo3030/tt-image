@@ -13,13 +13,14 @@ export class FontService {
       let link = document.createElement('link');
       link.href = fonts.url;
       link.rel = 'stylesheet';
-      link.onload = resolve;
-      link.onerror = () =>
-        reject(new Error(`Failed to load font at ${fonts.url}`)); // Reject the promise on error
       document.head.appendChild(link);
 
-      const font = new FontFaceObserver(fonts.fontFamily);
-      return font.load().then(resolve, reject);
+      link.onload = () => {
+        const font = new FontFaceObserver(fonts.fontFamily);
+        return font.load().then(resolve).catch(reject);
+      };
+      link.onerror = () =>
+        reject(new Error(`Failed to load font at ${fonts.url}`));
     });
   }
 }

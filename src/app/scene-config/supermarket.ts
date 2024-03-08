@@ -9,7 +9,7 @@ const config: SceneConfig = {
   numberOfDz: 9,
   numberOfTextBoxes: 9,
   numberOfAssets: 9,
-  scale: 0.7,
+  additionalAssetScale: 0.7,
   requiredAssetProps: ['dollar_price'],
   assetPlacement: [
     {
@@ -52,11 +52,13 @@ const config: SceneConfig = {
   styles: {
     font: {
       fontFamily: 'Montserrat',
+      textAlign: 'center',
+      textFill: 'white',
       url: 'https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap',
+      verticalCenterText: true,
     },
     textbox: {
-      selectedBackgroundColor: 'RGBA(254,92,45,.85)',
-      fill: 'white',
+      activeBorder: 'RGBA(70,57,50,.70)',
       borderRadius: 4,
     },
     dz: {

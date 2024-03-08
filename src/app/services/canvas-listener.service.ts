@@ -18,16 +18,27 @@ export class CanvasListenerService {
 
   private initTextListeners(canvas: fabric.Canvas) {
     canvas.on('text:changed', (e: any) => {
+      if (e.target.width > e.target.maxWidth) {
+        console.log('width exceeded');
+        let overflow = e.target.text.slice(-2);
+        e.target.width = e.target.maxWidth;
+        e.target.text = e.target.text.slice(0, -2);
+        e.target.text = e.target.text + '\n' + overflow;
+        if (e.target.height > e.target.maxHeight) {
+          e.target.text = e.target.text.slice(0, -2);
+          e.target.hiddenTextarea.value = e.target.text;
+          e.target.height = e.target.maxHeight;
+        }
+        e.target.hiddenTextarea.value = e.target.text;
+      }
       // limit text height also when press enter deselects textbox
-      if (e.target.height > e.target.maxHeight) {
+      if (e.target.height > e.target.maxHeight + 2) {
         e.target.text = e.target.text.slice(0, -1);
         e.target.hiddenTextarea.value = e.target.text;
         e.target.height = e.target.maxHeight;
         canvas.discardActiveObject();
+        e.target.isEditing = false;
       }
-    });
-    canvas.on('text:editing:exited', (e: any) => {
-      console.log(e.target);
     });
   }
 
@@ -40,11 +51,17 @@ export class CanvasListenerService {
 
   private initClickListeners(canvas: fabric.Canvas) {
     canvas.on('mouse:down', (e: any) => {
+      // if (!!canvas.getActiveObject()) {
+      //   console.log('active object', canvas.getActiveObject());
+      // } else {
+      //   console.log('no active object');
+      // }
       let target = e.target as any;
       // ripple effect
       if (target && target.fixedAsset) {
-        if (target.type === 'textbox') this.addRipple(target, canvas);
-        else {
+        if (target.type === 'textboxGroup') {
+          this.addRipple(target, canvas);
+        } else {
           target = this.dz.find((dz) => dz.id === target.associatedDz);
           this.addRipple(target, canvas);
         }

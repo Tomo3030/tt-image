@@ -3,6 +3,7 @@ interface SceneConfigImports {
 }
 
 export const sceneConfigImports: SceneConfigImports = {
-  'people-contacts': () => import('./people-contact'),
+  'people-contact': () => import('./people-contact'),
   supermarket: () => import('./supermarket'),
+  calendar: () => import('./calendar'),
 };

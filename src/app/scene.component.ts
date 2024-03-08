@@ -2,10 +2,10 @@ import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { fabric } from 'fabric';
 import { CanvasService } from './services/canvas.service';
-import { BackgroundService } from './services/background.service';
 import { DataService } from './services/data.service';
 import { CanvasListenerService } from './services/canvas-listener.service';
-import { SceneBuilderService } from './services/scene-builder.service';
+import { ElementAdderService } from './services/element-adder.service';
+import { BackgroundBuilderService } from './services/background-builder.service';
 
 @Component({
   selector: 'app-scene',
@@ -19,21 +19,20 @@ export class SceneComponent implements AfterViewInit {
   canvas!: fabric.Canvas;
   constructor(
     private canvasService: CanvasService,
-    private backgroundService: BackgroundService,
+    private backgroundBuilderService: BackgroundBuilderService,
     private data: DataService,
     private listener: CanvasListenerService,
-    private sceneBuilder: SceneBuilderService
+    private elementAdder: ElementAdderService
   ) {}
 
   async ngAfterViewInit() {
     this.canvasService.rezizeCanvas(this.myCanvas);
     this.canvas = new fabric.Canvas(this.myCanvas.nativeElement, {});
     this.canvas.selection = false;
-    this.canvas.selectionLineWidth = 5;
     const data = await this.data.getData();
 
-    await this.backgroundService.loadScene(this.canvas, data.scene);
-    this.sceneBuilder.buildScene(this.canvas, data);
+    await this.backgroundBuilderService.buildBackgroud(this.canvas, data.scene);
+    //if (data.assets) this.elementAdder.addElements(this.canvas, data);
     this.listener.initListeners(this.canvas);
   }
 }

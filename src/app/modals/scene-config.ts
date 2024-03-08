@@ -8,15 +8,18 @@ export interface SceneConfig {
   numberOfAssets: number;
   requiredAssetProps: string[]; // ['name', 'email', 'phone', 'id'];
   assetPlacement: AssetPlacement[];
-  scale: number; // most of the time 1, but if the asset sits too big in DZ, then scale it down.
+  additionalAssetScale: number; // most of the time 1, but if the asset sits too big in DZ, then scale it down/ acts as padding.
   styles?: {
     font?: {
       fontFamily: string;
+      textAlign: string;
+      textFill?: string;
       url: string;
+      verticalCenterText?: boolean;
     };
     textbox?: {
-      selectedBackgroundColor?: string;
-      fill?: string;
+      activeBorder?: string;
+
       borderRadius?: number;
     };
     canvas?: {
@@ -28,11 +31,6 @@ export interface SceneConfig {
       borderRadius?: number;
     };
   };
-}
-
-export interface DZAssociation {
-  dzId: string;
-  associatedTextBoxes: { id: string; prop: string }[];
 }
 
 export interface AssetPlacement {

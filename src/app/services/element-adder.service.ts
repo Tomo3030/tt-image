@@ -10,17 +10,17 @@ import { TextBoxService } from './text-box.service';
 @Injectable({
   providedIn: 'root',
 })
-export class SceneBuilderService {
+export class ElementAdderService {
   constructor(
     private loader: SvgLoaderService,
     private textBox: TextBoxService
   ) {}
 
-  public async buildScene(canvas: any, data: GameData) {
-    const assetPlacement = await this.getAssetPlacement(data);
+  public addElements(canvas: any, data: GameData) {
+    const assetPlacement = this.getAssetPlacement(data);
 
     const userName = data.members[1];
-    const assetScaleFactor = data.scene.scale || 1;
+    const assetScaleFactor = data.scene.additionalAssetScale || 1;
 
     const mySVGPlacement = this.getMySVGPlacement(
       assetPlacement,
@@ -40,7 +40,7 @@ export class SceneBuilderService {
     this.textBox.loadText(canvas, mytextPlacement);
   }
 
-  private async getAssetPlacement(data: GameData) {
+  getAssetPlacement(data: GameData) {
     const assetMap = data.assets;
 
     const assets = this.getSceneAssets(data, assetMap);

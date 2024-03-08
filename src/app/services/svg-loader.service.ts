@@ -7,7 +7,7 @@ import { fabric } from 'fabric';
 export class SvgLoaderService {
   constructor() {}
   ASSET_SCALE: null | number = null;
-  SCENE_SCALE_FACTOR = 1;
+  SCENE_SCALE_FACTOR = 1; // essentially padding around SVG
   NEEDS_CLIP_PATH = false;
 
   async placeSvgsOnCanvas(
@@ -62,7 +62,6 @@ export class SvgLoaderService {
 
   private loadSvgsToAssetContainer(canvas: fabric.Canvas, assetPath: string[]) {
     const assetContainer = this.getCanvasObject('asset-container', canvas);
-    console.log('assetContainer', assetContainer);
     const assetGrid = this.getAssetGrid(assetContainer, assetPath.length);
 
     assetPath.forEach((path, i) => {
@@ -118,7 +117,7 @@ export class SvgLoaderService {
   }
 
   private getAssetGrid(assetContainer: any, assetLength: number) {
-    if (assetLength > 10) throw new Error('Too many assets');
+    //if (assetLength > 10) throw new Error('Too many assets');
 
     const gridPositions: { left: number; top: number }[] = [];
     const rows = assetLength <= 5 ? 1 : 2;
