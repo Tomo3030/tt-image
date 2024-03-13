@@ -24,8 +24,8 @@ export class TextBoxService {
   }
 
   getCanvasObject(ref: string, canvas: fabric.Canvas) {
-    let dzArr = canvas.getObjects().filter((o: any) => o.id === ref);
-    return dzArr[0];
+    let tbArray = canvas.getObjects().filter((o: any) => o.id === ref);
+    return tbArray[0];
   }
 
   constructor() {}

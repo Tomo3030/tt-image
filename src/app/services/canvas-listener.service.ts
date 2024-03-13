@@ -51,6 +51,7 @@ export class CanvasListenerService {
 
   private initClickListeners(canvas: fabric.Canvas) {
     canvas.on('mouse:down', (e: any) => {
+      console.log(e.target);
       // if (!!canvas.getActiveObject()) {
       //   console.log('active object', canvas.getActiveObject());
       // } else {
@@ -91,15 +92,16 @@ export class CanvasListenerService {
       //if intersected dz is empty
       if (this.activeDz && this.activeDz !== intersect) {
         //if there is an active dz and it is not the intersected dz
-        this.activeDz.set('fill', intersect.defaultFill);
+        this.activeDz.set({ ...intersect.default });
       }
       // set intersected dz as active dz by changing its fill color
-      intersect.set('fill', intersect.activeFill);
-      intersect.dirty = true;
+      //intersect.set('fill', intersect.activeFill);
+      intersect.set({ ...intersect.active });
 
+      intersect.dirty = true;
       this.activeDz = intersect;
     } else if (this.activeDz?.id) {
-      this.activeDz.set('fill', this.activeDz.defaultFill);
+      this.activeDz.set({ ...this.activeDz.default });
       this.activeDz = null;
     }
   }
@@ -161,7 +163,7 @@ export class CanvasListenerService {
     }
     if (intersect && intersect.empty) {
       // DZ is empty place asset center inside DZ
-      this.activeDz.set('fill', intersect.defaultFill);
+      this.activeDz.set({ ...this.activeDz.active });
       this.activeDz = null;
 
       e.target.set({
@@ -173,7 +175,8 @@ export class CanvasListenerService {
 
       asset.associatedDz = intersect.id;
       intersect.empty = false;
-      intersect.fill = intersect.activeFill;
+      //intersect.fill = intersect.activeFill;
+      intersect.set({ ...intersect.active });
     }
   }
 

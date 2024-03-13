@@ -8,7 +8,8 @@ const config: SceneConfig = {
     './assets/scenes/supermarket/supermarket-asset-container.svg',
   numberOfDz: 9,
   numberOfTextBoxes: 9,
-  numberOfAssets: 9,
+  requiredNumberOfElements: 9,
+  additionalElements: 0,
   additionalAssetScale: 0.7,
   requiredAssetProps: ['dollar_price'],
   assetPlacement: [
@@ -64,7 +65,12 @@ const config: SceneConfig = {
     dz: {
       needsClipPath: false,
       borderRadius: 4,
-      activeFill: 'RGBA(254,208,45,.30)',
+      active: {
+        fill: 'RGBA(254,208,45,.30)',
+      },
+      default: {
+        fill: '#F4F4F4',
+      },
     },
     canvas: {},
   },

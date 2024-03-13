@@ -1,4 +1,4 @@
-export const calendarActivities = {
+const calendarActivities = {
   assets: {
     '001-calendar': {
       activity: 'Go to the gym',
@@ -92,3 +92,5 @@ export const calendarActivities = {
     },
   },
 };
+
+export default calendarActivities;

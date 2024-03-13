@@ -17,40 +17,47 @@ export class ElementAdderService {
   ) {}
 
   public addElements(canvas: any, data: GameData) {
-    const assetPlacement = this.getAssetPlacement(data);
+    // element placement might not have DZs, assets, and assetcontainer
+    // element placement is essentially answer sheet
+    const elementPlacement = this.getElementPlacement(data);
 
     const userName = data.members[1];
-    const assetScaleFactor = data.scene.additionalAssetScale || 1;
 
-    const mySVGPlacement = this.getMySVGPlacement(
-      assetPlacement,
-      data.members,
-      userName
-    );
+    if (data.scene.numberOfDz !== 0) {
+      const assetScaleFactor = data.scene.additionalAssetScale || 1;
+      const mySVGPlacement = this.getMySVGPlacement(
+        elementPlacement,
+        data.members,
+        userName
+      );
+      this.loader
+        .placeSvgsOnCanvas(canvas, mySVGPlacement, assetScaleFactor)
+        .then(() => {
+          canvas.renderAll();
+        });
+    }
 
-    this.loader.placeSvgsOnCanvas(canvas, mySVGPlacement, assetScaleFactor);
+    if (data.scene.numberOfTextBoxes !== 0) {
+      const mytextPlacement = this.getMyTextboxes(
+        elementPlacement,
+        this.getSceneTextboxes(elementPlacement),
+        data.members,
+        data.members.indexOf(userName)
+      );
 
-    const mytextPlacement = this.getMyTextboxes(
-      assetPlacement,
-      this.getSceneTextboxes(assetPlacement),
-      data.members,
-      data.members.indexOf(userName)
-    );
-
-    this.textBox.loadText(canvas, mytextPlacement);
+      this.textBox.loadText(canvas, mytextPlacement);
+    }
   }
 
-  getAssetPlacement(data: GameData) {
+  getElementPlacement(data: GameData) {
     const assetMap = data.assets;
-
-    const assets = this.getSceneAssets(data, assetMap);
-
+    const assets = this.getSceneElements(data, assetMap!);
     const assetPlacement = this.makeAnswerSheet(
       assets.requiredAssets,
       data.scene.assetPlacement
     );
     let additionalAssetPaths = assets.additionalAssets.map((asset) => {
-      return `${assetMap['base-path']}/${asset.assetName}`;
+      return `${assetMap!['base-path']}/${asset.assetName}`;
     });
     assetPlacement['asset-container'] = additionalAssetPaths;
     return assetPlacement;
@@ -71,21 +78,27 @@ export class ElementAdderService {
     return answerSheet;
   }
 
-  private getSceneAssets(data: GameData, assetMap: AssetMap) {
+  private getSceneElements(data: GameData, assetMap: AssetMap) {
+    //console.log(data);
     let assets = assetMap.assets;
-    let basepath = assetMap['base-path'];
     let assetArray = Object.keys(assets).map((key) => assets[key]);
-    let numberOfDz = data.scene.numberOfDz;
-    let requiredAssets = assetArray.slice(0, numberOfDz);
-    requiredAssets.map((asset) => {
-      asset['path'] = `${basepath}/${asset.assetName}`;
-    });
-    let numberOfAdditinalAssets = data.scene.numberOfAssets - numberOfDz;
+    assetArray = this.shuffleArray(assetArray);
+    let requiredNumberOfElements = data.scene.requiredNumberOfElements;
+    let requiredElements = assetArray.slice(0, requiredNumberOfElements);
+
+    if (data.scene.numberOfDz !== 0) {
+      let basepath = assetMap['base-path'];
+      requiredElements.map((asset) => {
+        asset['path'] = `${basepath}/${asset.assetName}`;
+      });
+    }
+
+    let numberOfAdditinalAssets = data.scene.additionalElements || 0;
     let additionalAssets = assetArray.slice(
-      numberOfDz,
-      numberOfDz + numberOfAdditinalAssets
+      requiredNumberOfElements,
+      requiredNumberOfElements + numberOfAdditinalAssets
     );
-    return { requiredAssets, additionalAssets };
+    return { requiredAssets: requiredElements, additionalAssets };
   }
 
   getMySVGPlacement(assetPlacement: any, members: string[], userName: string) {
@@ -139,6 +152,16 @@ export class ElementAdderService {
   }
 
   shuffleArray(array: any[]) {
+    let currentIndex = array.length,
+      randomIndex;
+    while (currentIndex !== 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex],
+        array[currentIndex],
+      ];
+    }
     return array;
   }
 }

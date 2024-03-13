@@ -11,7 +11,11 @@ import { BackgroundBuilderService } from './services/background-builder.service'
   selector: 'app-scene',
   standalone: true,
   imports: [CommonModule],
-  template: ` <canvas #myCanvas></canvas> `,
+  template: `
+    <div style="display: flex; justify-content: center;">
+      <canvas #myCanvas></canvas>
+    </div>
+  `,
   styles: [],
 })
 export class SceneComponent implements AfterViewInit {
@@ -29,10 +33,10 @@ export class SceneComponent implements AfterViewInit {
     this.canvasService.rezizeCanvas(this.myCanvas);
     this.canvas = new fabric.Canvas(this.myCanvas.nativeElement, {});
     this.canvas.selection = false;
-    const data = await this.data.getData();
 
+    const data = await this.data.getData();
     await this.backgroundBuilderService.buildBackgroud(this.canvas, data.scene);
-    //if (data.assets) this.elementAdder.addElements(this.canvas, data);
+    this.elementAdder.addElements(this.canvas, data);
     this.listener.initListeners(this.canvas);
   }
 }

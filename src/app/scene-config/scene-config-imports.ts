@@ -6,4 +6,5 @@ export const sceneConfigImports: SceneConfigImports = {
   'people-contact': () => import('./people-contact'),
   supermarket: () => import('./supermarket'),
   calendar: () => import('./calendar'),
+  zoo: () => import('./zoo'),
 };

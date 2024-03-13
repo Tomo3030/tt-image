@@ -4,12 +4,16 @@ import { TextboxWithPadding } from '../modals/textbox-with-padding';
 import { SceneConfig } from '../modals/scene-config';
 import { FontService } from './font.service';
 import { TextboxGroup } from '../modals/textbox-group';
+import { BackgroundColorService } from './background-color.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BackgroundBuilderService {
-  constructor(private fontService: FontService) {}
+  constructor(
+    private fontService: FontService,
+    private backgroundColor: BackgroundColorService
+  ) {}
   BG_SCALE = 1;
   canvas: any;
 
@@ -18,6 +22,7 @@ export class BackgroundBuilderService {
     scene: SceneConfig
   ): Promise<void> {
     this.canvas = canvas;
+    //this.backgroundColor.changeBackgroundColor('#BF9AC4');
 
     await Promise.all([
       this.fontService.loadSceneFont(scene.styles?.font),
@@ -53,6 +58,8 @@ export class BackgroundBuilderService {
     if (!path) return Promise.resolve();
     return new Promise((resolve, reject) => {
       this.createFabricObject({}, styles, 'dz-rect');
+      //test about active and default styles.
+
       fabric.loadSVGFromURL(path, (objects, options) => {
         objects.forEach((obj) => {
           if (obj.width! >= 1080) return;
@@ -98,12 +105,20 @@ export class BackgroundBuilderService {
   placeAssetContainerOnCanvas(canvas: fabric.Canvas, path: string) {
     if (!path) return Promise.resolve();
     return new Promise((resolve, reject) => {
-      fabric.loadSVGFromURL(path, (objects, options) => {
-        let container = objects[0] as any;
-        let rect = this.createFabricObject(container, {}, 'assetContainer');
-        canvas.add(rect);
+      fabric.util.loadImage('./assets/plus2.png', (img) => {
+        let pattern = new fabric.Pattern({
+          source: img,
+          repeat: 'repeat',
+        });
 
-        resolve(() => {});
+        fabric.loadSVGFromURL(path, (objects, options) => {
+          let container = objects[0] as any;
+          let rect = this.createFabricObject(container, {}, 'assetContainer');
+          rect.fill = pattern;
+          rect.opacity = 0.1;
+          canvas.add(rect);
+          resolve(() => {});
+        });
       });
     });
   }
@@ -126,7 +141,6 @@ export class BackgroundBuilderService {
       type: 'dropzone',
       selectable: false,
       defaultFill: obj.fill,
-
       ...styles,
     };
 
@@ -171,6 +185,7 @@ export class BackgroundBuilderService {
       case 'assetContainer':
         return new fabric.Rect({
           ...baseProps,
+          ...styles,
           selectable: false,
           fill: 'transparent',
         });

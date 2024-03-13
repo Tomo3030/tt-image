@@ -1,15 +1,15 @@
 <svg width="1080" height="1920" viewBox="0 0 1080 1920" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g id="supermarket">
 <g id="texboxes">
-<rect id="textbox-9" x="714" y="1459" width="280" height="56" rx="8" fill="#FE5C2D"/>
-<rect id="textbox-8" x="404" y="1459" width="280" height="56" rx="8" fill="#FE5C2D"/>
-<rect id="textbox-7" x="97" y="1459" width="277" height="56" rx="8" fill="#FE5C2D"/>
-<rect id="textbox-6" x="714" y="1066" width="280" height="56" rx="8" fill="#FE5C2D"/>
-<rect id="textbox-5" x="404" y="1066" width="280" height="56" rx="8" fill="#FE5C2D"/>
-<rect id="textbox-4" x="94" y="1066" width="280" height="56" rx="8" fill="#FE5C2D"/>
-<rect id="textbox-3" x="714" y="673" width="280" height="56" rx="8" fill="#FE5C2D"/>
-<rect id="textbox-2" x="404" y="673" width="280" height="56" rx="8" fill="#FE5C2D"/>
-<rect id="textbox-1" x="94" y="673" width="280" height="56" rx="8" fill="#FE5C2D"/>
+<rect id="textbox-9" x="710" y="1272" width="280" height="56" rx="8" fill="#FE5C2D"/>
+<rect id="textbox-8" x="400" y="1272" width="280" height="56" rx="8" fill="#FE5C2D"/>
+<rect id="textbox-7" x="93" y="1272" width="277" height="56" rx="8" fill="#FE5C2D"/>
+<rect id="textbox-6" x="710" y="911" width="280" height="56" rx="8" fill="#FE5C2D"/>
+<rect id="textbox-5" x="400" y="911" width="280" height="56" rx="8" fill="#FE5C2D"/>
+<rect id="textbox-4" x="90" y="911" width="280" height="56" rx="8" fill="#FE5C2D"/>
+<rect id="textbox-3" x="710" y="550" width="280" height="56" rx="8" fill="#FE5C2D"/>
+<rect id="textbox-2" x="400" y="550" width="280" height="56" rx="8" fill="#FE5C2D"/>
+<rect id="textbox-1" x="90" y="550" width="280" height="56" rx="8" fill="#FE5C2D"/>
 </g>
 </g>
 </svg>

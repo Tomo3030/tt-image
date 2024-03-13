@@ -1,15 +1,15 @@
 <svg width="1080" height="1920" viewBox="0 0 1080 1920" fill="none" xmlns="http://www.w3.org/2000/svg">
 
 
-<rect id="textbox-01" x="231" y="409" width="150" height="200" fill="#EAEAEA"/>
-<rect id="textbox-02" x="231" y="626" width="150" height="200" fill="#EAEAEA"/>
-<rect id="textbox-03" x="231" y="843" width="150" height="200" fill="#EAEAEA"/>
-<rect id="textbox-04" x="231" y="1060" width="150" height="200" fill="#EAEAEA"/>
-<rect id="textbox-05" x="231" y="1277" width="150" height="200" fill="#EAEAEA"/>
-<rect id="textbox-06" x="231" y="1494" width="150" height="200" fill="#EAEAEA"/>
-<rect id="textbox-07" x="231" y="1711" width="150" height="200" fill="#EAEAEA"/>
-<rect id="textbox-08" x="398" y="409" width="150" height="200" fill="#EAEAEA"/>
-<rect id="textbox-09" x="398" y="626" width="150" height="200" fill="#EAEAEA"/>
+<rect id="textbox-1" x="231" y="409" width="150" height="200" fill="#EAEAEA"/>
+<rect id="textbox-2" x="231" y="626" width="150" height="200" fill="#EAEAEA"/>
+<rect id="textbox-3" x="231" y="843" width="150" height="200" fill="#EAEAEA"/>
+<rect id="textbox-4" x="231" y="1060" width="150" height="200" fill="#EAEAEA"/>
+<rect id="textbox-5" x="231" y="1277" width="150" height="200" fill="#EAEAEA"/>
+<rect id="textbox-6" x="231" y="1494" width="150" height="200" fill="#EAEAEA"/>
+<rect id="textbox-7" x="231" y="1711" width="150" height="200" fill="#EAEAEA"/>
+<rect id="textbox-8" x="398" y="409" width="150" height="200" fill="#EAEAEA"/>
+<rect id="textbox-9" x="398" y="626" width="150" height="200" fill="#EAEAEA"/>
 <rect id="textbox-10" x="398" y="843" width="150" height="200" fill="#EAEAEA"/>
 <rect id="textbox-11" x="398" y="1060" width="150" height="200" fill="#EAEAEA"/>
 <rect id="textbox-12" x="398" y="1277" width="150" height="200" fill="#EAEAEA"/>

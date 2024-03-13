@@ -7,9 +7,11 @@ const config: SceneConfig = {
   assetContainerPath: '',
   numberOfDz: 0,
   numberOfTextBoxes: 35,
-  numberOfAssets: 35,
+  requiredNumberOfElements: 15,
+  additionalElements: 0,
   requiredAssetProps: ['activity'],
   additionalAssetScale: 1,
+  dynamicAssetPlacement: true,
   assetPlacement: [
     {
       activity: 'textbox-1',

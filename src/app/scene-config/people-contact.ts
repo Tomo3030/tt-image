@@ -7,7 +7,8 @@ const config: SceneConfig = {
   assetContainerPath: './assets/scenes/people-contact/asset-container.svg',
   numberOfDz: 4,
   numberOfTextBoxes: 16,
-  numberOfAssets: 5,
+  requiredNumberOfElements: 4,
+  additionalElements: 1,
   requiredAssetProps: ['name', 'email', 'phone', 'id'],
   additionalAssetScale: 1,
   assetPlacement: [
@@ -46,9 +47,10 @@ const config: SceneConfig = {
 
   styles: {
     font: {
-      fontFamily: 'Montserrat',
+      fontFamily: 'IBM Plex Sans Condensed',
       textAlign: 'center',
-      url: 'https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap',
+      url: 'https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed&display=swap',
+
       verticalCenterText: true,
       textFill: 'black',
     },
@@ -58,6 +60,12 @@ const config: SceneConfig = {
     dz: {
       needsClipPath: true,
       activeFill: 'RGBA(0,0,255,0.1)',
+      active: {
+        fill: 'RGBA(0,0,255,0.1)',
+      },
+      default: {
+        fill: '#EEEEEE',
+      },
     },
     canvas: {
       lockedAssetRippleColor: 'rgba(0,0,0,0.5)',

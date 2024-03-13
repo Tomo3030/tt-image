@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { fabric } from 'fabric';
+import { max } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -118,15 +119,19 @@ export class SvgLoaderService {
 
   private getAssetGrid(assetContainer: any, assetLength: number) {
     //if (assetLength > 10) throw new Error('Too many assets');
+    const MAX_ASSETS_PER_ROW = 5;
 
     const gridPositions: { left: number; top: number }[] = [];
-    const rows = assetLength <= 5 ? 1 : 2;
+    const rows = assetLength <= MAX_ASSETS_PER_ROW ? 1 : 2;
     const itemsPerRow = Math.ceil(assetLength / rows);
     const itemWidth = assetContainer.width / itemsPerRow;
     const itemHeight = assetContainer.height / rows;
+    //hacky fix for 3 items per row
+    const offsetLeft = itemsPerRow < 4 ? itemWidth / 4 : 0;
 
     for (let row = 0; row < rows; row++) {
-      let top = assetContainer.top + itemHeight * row;
+      let paddingTop = 10;
+      let top = assetContainer.top + itemHeight * row + paddingTop;
       // Adjust top for single row case to center vertically
       if (rows === 1) top += (assetContainer.height - itemHeight) / 2;
 
@@ -134,7 +139,7 @@ export class SvgLoaderService {
         // Only add positions for actual assets
         if (row * itemsPerRow + col >= assetLength) break;
 
-        let left = itemWidth * col;
+        let left = itemWidth * col + offsetLeft;
         gridPositions.push({ left, top });
       }
     }
