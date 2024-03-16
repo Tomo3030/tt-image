@@ -1,11 +1,10 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { fabric } from 'fabric';
+
 import { CanvasService } from './services/canvas.service';
 import { DataService } from './services/data.service';
-import { CanvasListenerService } from './services/canvas-listener.service';
-import { ElementAdderService } from './services/element-adder.service';
-import { BackgroundBuilderService } from './services/background-builder.service';
+import { GameCanvasService } from './game-canvas/game-canvas.service';
 
 @Component({
   selector: 'app-scene',
@@ -21,12 +20,11 @@ import { BackgroundBuilderService } from './services/background-builder.service'
 export class SceneComponent implements AfterViewInit {
   @ViewChild('myCanvas') myCanvas!: ElementRef;
   canvas!: fabric.Canvas;
+
   constructor(
     private canvasService: CanvasService,
-    private backgroundBuilderService: BackgroundBuilderService,
     private data: DataService,
-    private listener: CanvasListenerService,
-    private elementAdder: ElementAdderService
+    private gameCanvas: GameCanvasService
   ) {}
 
   async ngAfterViewInit() {
@@ -35,8 +33,41 @@ export class SceneComponent implements AfterViewInit {
     this.canvas.selection = false;
 
     const data = await this.data.getData();
-    await this.backgroundBuilderService.buildBackgroud(this.canvas, data.scene);
-    this.elementAdder.addElements(this.canvas, data);
-    this.listener.initListeners(this.canvas);
+    this.gameCanvas.buildScene(this.canvas, data);
   }
 }
+
+// this.canvas.on('mouse:down', (e: any) => {
+//   this.createRect();
+//   // console.log('l');
+//   // let f = fabric as any;
+//   // f.runningAnimations.cancelByTarget(e.target);
+// });
+// }
+
+// createRect() {
+// let rect = new fabric.Rect({
+//   left: -50,
+//   top: 100,
+//   fill: 'red',
+//   width: 50,
+//   height: 50,
+// });
+// this.canvas.add(rect);
+
+// rect.animate('left', 400, {
+//   duration: 5000,
+//   easing: (t: any, b: any, c: any, d: any) => {
+//     return b + (t / d) * c;
+//   }, //linear ease
+//   onChange: () => {
+//     rect.setCoords();
+//     this.canvas.requestRenderAll();
+//   },
+//   onComplete: () => {
+//     this.canvas.remove(rect);
+//     let objs = this.canvas.getObjects();
+//     console.log(objs.length);
+//   },
+// });
+// }

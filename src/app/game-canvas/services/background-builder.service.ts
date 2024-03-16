@@ -1,19 +1,15 @@
 import { Injectable } from '@angular/core';
 import { fabric } from 'fabric';
-import { TextboxWithPadding } from '../modals/textbox-with-padding';
-import { SceneConfig } from '../modals/scene-config';
+import { SceneConfig } from '../../modals/scene-config';
 import { FontService } from './font.service';
-import { TextboxGroup } from '../modals/textbox-group';
-import { BackgroundColorService } from './background-color.service';
+import { TextboxGroup } from '../../modals/textbox-group';
+import { BackgroundColorService } from '../../services/background-color.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BackgroundBuilderService {
-  constructor(
-    private fontService: FontService,
-    private backgroundColor: BackgroundColorService
-  ) {}
+  constructor(private fontService: FontService) {}
   BG_SCALE = 1;
   canvas: any;
 

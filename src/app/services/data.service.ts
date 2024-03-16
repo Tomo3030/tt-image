@@ -22,7 +22,6 @@ export class DataService {
     let _data = this.FAKE_DATA;
     let scene = await this.getSceneConfig(_data.scene);
     let assets = await this.getAssetMap(_data.assets);
-    console.log(scene);
 
     return {
       scene,

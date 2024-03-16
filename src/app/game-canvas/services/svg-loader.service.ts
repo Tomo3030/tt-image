@@ -16,6 +16,7 @@ export class SvgLoaderService {
     svgPlacements: any,
     scaleFactor: number
   ) {
+    if (!svgPlacements) return;
     this.SCENE_SCALE_FACTOR = scaleFactor;
     this.loadSvgsToDropzones(canvas, svgPlacements);
     this.loadSvgsToAssetContainer(canvas, svgPlacements['asset-container']);
