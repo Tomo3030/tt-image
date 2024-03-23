@@ -111,7 +111,7 @@ export class BackgroundBuilderService {
           let container = objects[0] as any;
           let rect = this.createFabricObject(container, {}, 'assetContainer');
           rect.fill = pattern;
-          rect.opacity = 0.1;
+          rect.opacity = 0.2;
           canvas.add(rect);
           resolve(() => {});
         });
