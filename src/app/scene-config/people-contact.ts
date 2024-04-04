@@ -1,4 +1,4 @@
-import { SceneConfig } from '../modals/scene-config';
+import { SceneConfig } from '../types/scene-config';
 
 const config: SceneConfig = {
   backgroundPath: './assets/scenes/people-contact/people-bg.svg',
@@ -11,6 +11,7 @@ const config: SceneConfig = {
   additionalElements: 1,
   requiredAssetProps: ['name', 'email', 'phone', 'id'],
   additionalAssetScale: 1,
+  backgroundFill: '#884B90',
   assetPlacement: [
     {
       path: 'dz-1',
@@ -58,12 +59,9 @@ const config: SceneConfig = {
       activeBorder: 'RGBA(0,0,255,0.1)',
     },
     dz: {
-      needsClipPath: true,
-      activeFill: 'RGBA(0,0,255,0.1)',
-      active: {
-        fill: 'RGBA(0,0,255,0.1)',
-      },
-      default: {
+      activeStyles: { fill: 'RGBA(0,0,255,0.1)' },
+
+      defaultStyles: {
         fill: '#EEEEEE',
       },
     },

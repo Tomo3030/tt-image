@@ -1,4 +1,4 @@
-import { SceneConfig } from '../modals/scene-config';
+import { SceneConfig } from '../types/scene-config';
 
 const config: SceneConfig = {
   backgroundPath: './assets/scenes/calendar/calendar-bg.svg',
@@ -12,6 +12,7 @@ const config: SceneConfig = {
   requiredAssetProps: ['activity'],
   additionalAssetScale: 1,
   dynamicAssetPlacement: true,
+  backgroundFill: 'white',
   assetPlacement: [
     {
       activity: 'textbox-1',
@@ -132,8 +133,7 @@ const config: SceneConfig = {
       borderRadius: 4,
     },
     dz: {
-      needsClipPath: false,
-      activeFill: 'RGBA(0,0,255,0.1)',
+      activeStyles: { fill: 'RGBA(0,0,255,0.1)' },
     },
     canvas: {
       lockedAssetRippleColor: 'rgba(0,0,0,0.5)',

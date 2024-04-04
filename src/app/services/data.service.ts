@@ -1,21 +1,38 @@
 import { Injectable } from '@angular/core';
 import { sceneConfigImports } from '../scene-config/scene-config-imports';
-import { GameData } from '../modals/game-data';
+import { GameData } from '../types/game-data';
 import { assetMapImports } from '../asset-maps/asset-map-imports';
-import { SceneConfig } from '../modals/scene-config';
-import { AssetMap } from '../modals/asset-map';
+import { SceneConfig } from '../types/scene-config';
+import { AssetMap } from '../types/asset-map';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataService {
   constructor() {}
+  private current = 0;
+  private games = [
+    {
+      scene: 'supermarket',
+      assets: 'fruits',
+    },
+    {
+      scene: 'zoo',
+      assets: 'animals',
+    },
+    {
+      scene: 'people-contact',
+      assets: 'avatar-men',
+    },
+  ];
 
   FAKE_DATA = {
-    scene: 'zoo',
-    assets: 'animals',
+    scene: this.games[this.current].scene,
+    assets: this.games[this.current].assets,
     members: ['a', 'b', 'c'],
     timeStamp: 240204,
+    //type: 'spot-the-difference',
+    type: 'drag-drop',
   };
 
   async getData(): Promise<GameData> {
@@ -28,6 +45,7 @@ export class DataService {
       assets,
       members: _data.members,
       timeStamp: _data.timeStamp,
+      type: _data.type,
     };
   }
 
@@ -47,8 +65,6 @@ export class DataService {
       shuffled = shuffled.slice(0, requiredNumberOfElements);
       //shuffle needs to be seed shuffle
       m.assetPlacement = shuffled;
-
-      console.log(shuffled);
     }
     return m;
   }

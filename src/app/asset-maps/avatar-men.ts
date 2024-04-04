@@ -1,4 +1,4 @@
-import { AssetMap } from '../modals/asset-map';
+import { AssetMap } from '../types/asset-map';
 
 const avatarMen: AssetMap = {
   collection: 'avatar-men',

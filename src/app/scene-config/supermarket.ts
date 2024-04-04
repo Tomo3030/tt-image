@@ -1,4 +1,4 @@
-import { SceneConfig } from '../modals/scene-config';
+import { SceneConfig } from '../types/scene-config';
 
 const config: SceneConfig = {
   backgroundPath: './assets/scenes/supermarket/supermarket-bg.svg',
@@ -12,6 +12,7 @@ const config: SceneConfig = {
   additionalElements: 0,
   additionalAssetScale: 0.7,
   requiredAssetProps: ['dollar_price'],
+  backgroundFill: '#FECA52',
   assetPlacement: [
     {
       path: 'dz-1',
@@ -54,7 +55,7 @@ const config: SceneConfig = {
     font: {
       fontFamily: 'Montserrat',
       textAlign: 'center',
-      textFill: 'white',
+      textFill: '#3A3A3A',
       url: 'https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap',
       verticalCenterText: true,
     },
@@ -63,12 +64,11 @@ const config: SceneConfig = {
       borderRadius: 4,
     },
     dz: {
-      needsClipPath: false,
       borderRadius: 4,
-      active: {
+      activeStyles: {
         fill: 'RGBA(254,208,45,.30)',
       },
-      default: {
+      defaultStyles: {
         fill: '#F4F4F4',
       },
     },

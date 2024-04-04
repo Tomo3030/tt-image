@@ -1,4 +1,4 @@
-import { SceneConfig } from '../modals/scene-config';
+import { SceneConfig } from '../types/scene-config';
 
 const config: SceneConfig = {
   backgroundPath: './assets/scenes/zoo/zoo-bg.svg',
@@ -8,9 +8,10 @@ const config: SceneConfig = {
   numberOfDz: 13,
   numberOfTextBoxes: 0,
   requiredNumberOfElements: 13,
-  additionalElements: 0,
+  additionalElements: 1,
   requiredAssetProps: [],
   additionalAssetScale: 1,
+  backgroundFill: '#147D49',
   assetPlacement: [
     {
       path: 'dz-1',
@@ -55,15 +56,13 @@ const config: SceneConfig = {
 
   styles: {
     dz: {
-      needsClipPath: false,
-      activeFill: '#F7B857',
       borderRadius: 6,
-      active: {
+      activeStyles: {
         stroke: '#EB6424',
         //stroke: '#2374AB',
         strokeWidth: 2,
       },
-      default: {
+      defaultStyles: {
         stroke: null,
         strokeWidth: 0,
       },

@@ -1,37 +1,39 @@
 import { Injectable } from '@angular/core';
-import { GameData } from '../modals/game-data';
+import { GameData } from '../types/game-data';
 import { BackgroundBuilderService } from './services/background-builder.service';
-import { CanvasListenerService } from './services/canvas-listener.service';
-import { ElementAdderService } from './services/element-adder.service';
-import { ElementPlacementMapService } from './services/element-placement-map.service';
+import { CanvasListenerService } from './services/listeners/canvas-listener.service';
+import { ElementAdderService } from './services/add-elements/element-adder.service';
+import { ElementPlacementService } from './services/placement/element-placement.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GameCanvasService {
-  answerSheet: any;
-  myElements: any;
+  correctElementPlacements: any;
+  playerElementPlacements: any;
   constructor(
     private backgroundBuilderService: BackgroundBuilderService,
-    private elementMapService: ElementPlacementMapService,
+    private elementPlacementService: ElementPlacementService,
     private elementAdderService: ElementAdderService,
     private canvasLister: CanvasListenerService
   ) {}
 
-  async buildScene(canvas: fabric.Canvas, data: GameData) {
-    console.log('building scene');
+  public async buildScene(canvas: fabric.Canvas, data: GameData) {
+    const elementPlacements = this.elementPlacementService.getElementPlacements(
+      data,
+      'b'
+    );
+    this.correctElementPlacements = elementPlacements.answerSheet;
+    this.playerElementPlacements = elementPlacements.playerElementPlacements;
 
-    const maps = this.elementMapService.makePlacementMap(data);
-    console.log(maps);
-    this.answerSheet = maps.answerSheet;
-    this.myElements = maps.myElements;
+    await this.backgroundBuilderService.buildBackgroud(canvas, data);
 
-    await this.backgroundBuilderService.buildBackgroud(canvas, data.scene);
     this.elementAdderService.addElements(
       canvas,
-      maps.myElements,
+      this.playerElementPlacements,
       data.scene.additionalAssetScale
     );
-    this.canvasLister.initListeners(canvas);
+
+    this.canvasLister.initListeners(canvas, data);
   }
 }
